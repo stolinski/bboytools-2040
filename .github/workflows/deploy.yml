@@ -10,7 +10,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Decrypt large secret
-        run: ./.github/scripts/decrypt_secret.sh
+        run: ./.github/scripts/decryptSettings.sh
         env:
           PASS: ${{ secrets.PASS }}
       - name: Checkout
