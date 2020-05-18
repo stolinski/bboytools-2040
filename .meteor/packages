@@ -24,4 +24,5 @@ svelte:compiler
 rdb:svelte-meteor-data
 static-html
 accounts-password
-leveluptutorials:svelte-accounts-ui
+levelup:svelte-accounts-ui
+coagmano:stylus

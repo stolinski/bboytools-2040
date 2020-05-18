@@ -1,5 +1,7 @@
 <script>
   export let move;
+  import { fade } from "svelte/transition";
+
   import { Close } from "/imports/ui/elements";
   import { Moves } from "../../api/moves";
   let updateRes = move.title;
@@ -23,8 +25,6 @@
 <style>
   li {
     padding: 20px;
-    display: flex;
-    justify-content: space-between;
     border-bottom: solid 1px var(--lineColor);
   }
   li > * {
@@ -32,7 +32,9 @@
   }
 </style>
 
-<li>
-  <p>{move.title}</p>
-  <Close on:click={deleteRes} />
+<li transition:fade>
+  <div class="move-card">
+    <p>{move.title}</p>
+    <Close on:click={deleteRes} />
+  </div>
 </li>

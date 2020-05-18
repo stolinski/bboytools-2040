@@ -11,6 +11,7 @@
   let power = [];
   let freeze = [];
   let burner = [];
+  let goDown = [];
 
   $: moves = Moves.find({
     userId: user
@@ -22,6 +23,7 @@
     power = $moves.filter(item => item.type === "power");
     freeze = $moves.filter(item => item.type === "freeze");
     burner = $moves.filter(item => item.type === "burner");
+    goDown = $moves.filter(item => item.type === "goDown");
   }
 
   // moves.filter(item => item.type === "toprock");
@@ -74,6 +76,14 @@
     </ul>
   </div>
 
+  <div>
+    <h3>Go Down</h3>
+    <ul>
+      {#each goDown as move}
+        <Move {move} />
+      {/each}
+    </ul>
+  </div>
   <div>
     <h3>Burner</h3>
     <ul>

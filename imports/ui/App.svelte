@@ -1,13 +1,10 @@
 <script>
-  import { Route } from "tinro";
+  import { Route, router } from "tinro";
   import { Meteor } from "meteor/meteor";
   import { useTracker } from "meteor/rdb:svelte-meteor-data";
   import { Moves } from "../api/moves";
 
-  import {
-    LoginWindow,
-    Logout
-  } from "meteor/leveluptutorials:svelte-accounts-ui";
+  import { LoginWindow, Logout } from "meteor/levelup:svelte-accounts-ui";
 
   import AllMoves from "./moves/Moves.svelte";
 
@@ -15,6 +12,12 @@
   let newType = "toprock";
 
   $: user = useTracker(() => Meteor.userId());
+
+  console.log("$user", $user);
+  $: if ($user) {
+    console.log("yo");
+    router.goto("/moves");
+  }
 
   function handleSubmit(event) {
     Moves.insert({
@@ -29,55 +32,65 @@
 </script>
 
 <style>
-  :global(:root) {
-    --black: #333;
-    --red: #e54b4b;
-    --lightGrey: #ccc;
-    --white: #fff;
-
-    --lineColor: var(--lightGrey);
-  }
   header {
     color: var(--white);
     background: var(--black);
+    height: 2rem;
+    display: flex;
+    box-shadow: var(--level1);
+    padding: 0 2.5%;
+    margin-block-end: 2rem;
+  }
+  main {
+    margin: 0 auto;
+    width: 95%;
   }
 </style>
 
 <header>
   <h1>Bboy Tools</h1>
+  {#if $user}
+    <Logout />
+  {/if}
 </header>
-<!-- 
-<nav>
-  <a href="/">Home</a>
-  <a href="/portfolio">Portfolio</a>
-  <a href="/contacts">Contacts</a>
-</nav> -->
-<!-- 
-<Route path="/">
-  <h1>It is main page</h1>
-</Route> -->
 
 {#if $user}
-  <Logout />
-{:else}
-  <LoginWindow />
+  <nav>
+    <a href="/">Home</a>
+    <a href="/portfolio">Portfolio</a>
+    <a href="/contacts">Contacts</a>
+  </nav>
 {/if}
 
-<main>
-  {#if $user}
-    <form on:submit|preventDefault={handleSubmit}>
-      <input type="text" placeholder="Add new move" bind:value={newMove} />
-      <select bind:value={newType}>
-        <option value="toprock">Toprock</option>
-        <option value="footwork">Footwork</option>
-        <option value="freeze">Freeze</option>
-        <option value="power">Power</option>
-        <option value="burner">Burner</option>
-      </select>
-      <button>Add Move</button>
-    </form>
-
-    <AllMoves user={$user} />
+<Route path="/">
+  {#if !$user}
+    <div class="card card-login">
+      <LoginWindow />
+    </div>
   {/if}
+</Route>
 
-</main>
+<Route path="/moves">
+  <main>
+    {#if $user}
+      <form on:submit|preventDefault={handleSubmit}>
+        <input type="text" placeholder="Add new move" bind:value={newMove} />
+        <select bind:value={newType}>
+          <option value="toprock">Toprock</option>
+          <option value="footwork">Footwork</option>
+          <option value="freeze">Freeze</option>
+          <option value="power">Power</option>
+          <option value="goDown">Go Down</option>
+          <option value="burner">Burner</option>
+        </select>
+        <button>Add Move</button>
+      </form>
+
+      <AllMoves user={$user} />
+    {/if}
+
+  </main>
+</Route>
+<Route path="/tools">
+  <h2>Tools</h2>
+</Route>
