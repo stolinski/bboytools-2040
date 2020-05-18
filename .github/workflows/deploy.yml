@@ -8,12 +8,19 @@ jobs:
   setup_meteor:
     runs-on: ubuntu-16.04
     steps:
+      - uses: actions/checkout@v2
+      - name: Decrypt large secret
+        run: ./.github/scripts/decrypt_secret.sh
+        env:
+          PASS: ${{ secrets.PASS }}
       - name: Checkout
         uses: actions/checkout@v1
+      - name: Test printing your secret (Remove this step in production)
+        run: cat $HOME/secrets/my_secret.json
       - name: Setup Meteor
         uses: meteorengineer/setup-meteor@v1
         with:
           meteor-release: "1.10.1"
       - run: yarn install
       - name: Meteor Deploy
-        run: METEOR_SESSION_FILE=${{ secrets.TOKEN }} meteor deploy www.bboytools.com --settings ${{ secrets.SETTINGS }}
+        run: METEOR_SESSION_FILE=$HOME/secrets/token.json meteor deploy www.bboytools.com --settings $HOME/secrets/settings.json
