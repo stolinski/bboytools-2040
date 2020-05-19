@@ -14,9 +14,9 @@
     "meteor-node-stubs": "^1.0.0",
     "mongoose": "^5.9.13",
     "prettier": "^2.0.5",
-    "svelte": "^3.22.2",
+    "svelte": "^3.22.3",
     "svelte-routing": "^1.4.2",
-    "tinro": "^0.2.7"
+    "tinro": "^0.2.9"
   },
   "meteor": {
     "mainModule": {

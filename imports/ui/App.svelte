@@ -1,5 +1,6 @@
 <script>
-  import { Route, router } from "tinro";
+  import Route from "tinro/cmp/Route.svelte";
+  import { router } from "tinro/cmp/index.js";
   import { Meteor } from "meteor/meteor";
   import { useTracker } from "meteor/rdb:svelte-meteor-data";
   import { Moves } from "../api/moves";
@@ -57,12 +58,14 @@
 <Nav />
 
 <Route path="/">
-  {#if !$user}
+  <div>
+
     <div class="card card-login">
       <LoginWindow />
     </div>
-  {/if}
+  </div>
 </Route>
+
 <Route path="/battle">
   <BattleMode />
 </Route>
