@@ -3,6 +3,8 @@
   import { Meteor } from "meteor/meteor";
   import { useTracker } from "meteor/rdb:svelte-meteor-data";
   import { Moves } from "../api/moves";
+  import Nav from "./elements/Nav.svelte";
+  import BattleMode from "./battle/BattleMode";
 
   import { LoginWindow, Logout } from "meteor/levelup:svelte-accounts-ui";
 
@@ -13,9 +15,7 @@
 
   $: user = useTracker(() => Meteor.userId());
 
-  console.log("$user", $user);
   $: if ($user) {
-    console.log("yo");
     router.goto("/moves");
   }
 
@@ -54,13 +54,7 @@
   {/if}
 </header>
 
-{#if $user}
-  <nav>
-    <a href="/">Home</a>
-    <a href="/portfolio">Portfolio</a>
-    <a href="/contacts">Contacts</a>
-  </nav>
-{/if}
+<Nav />
 
 <Route path="/">
   {#if !$user}
@@ -68,6 +62,9 @@
       <LoginWindow />
     </div>
   {/if}
+</Route>
+<Route path="/battle">
+  <BattleMode />
 </Route>
 
 <Route path="/moves">
